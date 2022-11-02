@@ -1,17 +1,17 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
 	"os"
+	"strconv"
 
 	"github.com/Brotiger/go_xor_crypto/internal/xor"
 )
 
 var (
-	input    string
-	password string
-	shift    int
+	shift int
 )
 
 func init() {
@@ -20,11 +20,19 @@ func init() {
 
 func main() {
 	flag.Parse()
+	myscanner := bufio.NewScanner(os.Stdin)
 
 	fmt.Print("Введите строку: ")
-	fmt.Fscan(os.Stdin, &input)
-	fmt.Print("Введите пароль: ")
-	fmt.Fscan(os.Stdin, &password)
 
-	fmt.Print(xor.EncryptDecrypt(input, password, shift))
+	myscanner.Scan()
+	input := myscanner.Text()
+	fmt.Print("Введите пароль: ")
+	myscanner.Scan()
+	password := myscanner.Text()
+	fmt.Print("Результат: ")
+	crypto := xor.EncryptDecrypt(input, password, shift)
+	fmt.Print("\n")
+	fmt.Print(strconv.Quote(crypto))
+
+	fmt.Print("\n")
 }
